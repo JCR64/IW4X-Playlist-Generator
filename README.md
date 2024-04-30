@@ -17,13 +17,13 @@ Line 2 ...
 Line 521 set sv_maprotation "" // keep sv_maprotation empty as we will use the generated playlist instead
 ```
 
-so you want to add the playlist after Line 521 so in `playlist_generator.bat` you would be editing this line:
+so you want to add the playlist after Line 521 so in `playlist_generator.bat` you would be editing this line, replacing the number if necessary:
 
 ```
 if !lineCount! leq 521 (
 ```
 
-4. Schedule for `playlist_generator.bat` to be run daily assuming. Assuming your server restarts daily also, each day the playlist should remain the same but in a different order.
+4. Schedule for `playlist_generator.bat` to be run daily. Assuming your server restarts daily, each day the playlist should stay the same but in a different order.
 
 ## Backups
 
