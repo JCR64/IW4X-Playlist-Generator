@@ -1,8 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:: Set the name of the server configuration file you want to generate a playlist for
+set "serverConfigFile=server.cfg"
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:: modes = war dm dom koth sab sd arena dd ctf oneflag gtnw		    	::
+:: modes = war dm dom koth sab sd arena dd ctf oneflag gtnw conf gun infect    	::
 :: maps = mp_afghan		mp_cross_fire		mp_alpha	    	::
 ::	  mp_derail		mp_cargoship		mp_bravo  		::
 ::	  mp_estate		mp_killhouse		mp_dome			::
@@ -25,21 +28,27 @@ setlocal enabledelayedexpansion
 ::        mp_compact 		mp_fav_tropical					::
 ::        mp_storm 		mp_estate_tropical				::
 ::        mp_abandon		mp_crash_tropical				::
-::        mp_fuel2								::
+::        mp_fuel2		mp_crash_snow					::
 ::        mp_strike								::
 ::        mp_trailerpark							::
 ::        mp_vacant								::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Set maps and modes to combine
-set modes=sab dd
-set maps=mp_afghan mp_derail mp_estate mp_favela mp_highrise mp_invasion mp_checkpoint mp_quarry mp_rundown mp_rust mp_boneyard mp_nightshift mp_subbase mp_terminal mp_underpass mp_brecourt mp_complex mp_crash mp_overgrown mp_compact mp_storm mp_abandon mp_fuel2 mp_strike mp_trailerpark mp_vacant
-  
+set modes=tdm ffa sab
+set maps=mp_afghan mp_derail mp_estate mp_favela mp_highrise mp_invasion mp_checkpoint mp_quarry mp_rundown mp_rust mp_boneyard mp_nightshift mp_subbase mp_terminal mp_underpass mp_brecourt
+
 :: Set combos to avoid
-set exclude=dd_mp_rust sab_mp_estate sab_mp_derail sab_mp_fuel2
+set exclude=ffa_mp_rust sab_mp_rust
 
 :: Set special combos to include
-set include=war_mp_shipment war_mp_rust war_mp_nuked sab_mp_cross_fire
+set include=dd_mp_afghan dd_mp_derail dd_mp_estate dd_mp_favela dd_mp_highrise
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::                                                                              ::
+::                         NO NEED TO EDIT ANYTHING BELOW                       ::
+::                                                                              ::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Clears any temporary playlist files before generating
 if exist tempplaylist.txt del tempplaylist.txt
@@ -93,35 +102,50 @@ set "backupFolder=previous_playlists"
 :: Create a backup folder if it doesn't exist
 if not exist "%backupFolder%" mkdir "%backupFolder%"
 
+:: Check if server.cfg exists in the previous_playlists folder and make a copy if it doesn't
+if not exist "%backupFolder%\%serverConfigFile%" (
+    copy "%serverConfigFile%" "%backupFolder%\%serverConfigFile%"
+    echo Backup of %serverConfigFile% created in %backupFolder%.
+) else (
+    echo Backup of %serverConfigFile% already exists in %backupFolder%.
+)
+
+:: Extract the file name without the extension from serverConfigFile
+for %%i in ("%serverConfigFile%") do set "configName=%%~ni"
+
 :: Format the date as YYYY_MM_DD and set as the target file name
-set "dateString=%date:~-4,4%_%date:~-7,2%_%date:~-10,2%.txt"
+set "dateString=%date:~-4,4%_%date:~-7,2%_%date:~-10,2%_%configName%.txt"
 set "target=%backupFolder%\%dateString%"
 
 :: Copy the file to the backup folder with the new name
 copy "%source%" "%target%"
 echo File copied and renamed to %target%
 
-:: Set the server file name
-copy "server.cfg" "server_backup.cfg"
+:: Find the line number of set "sv_maprotation "in the server configuration file
+for /f "delims=:" %%a in ('findstr /n /c:"set sv_maprotation " "%serverConfigFile%"') do set "lineNum=%%a"
 
-:: Keep the first 521 lines of server.cfg, including empty lines
-set "lineCount=0"
->server_new.cfg (
-    for /F "delims=" %%i in ('findstr /n "^" server.cfg') do (
-        set "line=%%i"
-        set "line=!line:*:=!"
-        set /a "lineCount+=1"
-        if !lineCount! leq 521 (
+:: Copy lines up to "set sv_maprotation " into a new temporary file, including empty lines
+set "count=0"
+>temp_server.cfg (
+    for /f "tokens=1* delims=:" %%a in ('findstr /n /r /c:".*" "%serverConfigFile%"') do (
+        set "line=%%b"
+        if not defined line set "line="
+        set /a "count+=1"
+        if !count! lss !lineNum! (
             echo(!line!
+        ) else if !count! equ !lineNum! (
+            echo(set sv_maprotation ^"^")
         )
     )
 )
+:: Append a blank line to the temporary server configuration file
+echo. >> temp_server.cfg
 
-:: Append input.txt to the new output file
-type playlist.txt >> server_new.cfg
+:: Append the playlist to the temporary server configuration file
+type playlist.txt >> temp_server.cfg
 
-:: Replace the old output.txt with the new file
-move /y server_new.cfg server.cfg
+:: Replace the original server configuration file with the new temporary file
+move /y temp_server.cfg "%serverConfigFile%"
 
 :: Delete leftover playlist file
 if exist playlist.txt del playlist.txt
