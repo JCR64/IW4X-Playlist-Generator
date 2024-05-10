@@ -35,7 +35,7 @@ set "serverConfigFile=server.cfg"
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Set maps and modes to combine
-set modes=tdm ffa sab
+set modes=war ffa sab
 set maps=mp_afghan mp_derail mp_estate mp_favela mp_highrise mp_invasion mp_checkpoint mp_quarry mp_rundown mp_rust mp_boneyard mp_nightshift mp_subbase mp_terminal mp_underpass mp_brecourt
 
 :: Set combos to avoid
