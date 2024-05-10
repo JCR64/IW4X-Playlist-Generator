@@ -97,7 +97,7 @@ if exist tempplaylist.txt del tempplaylist.txt
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::                                                                              ::
-::             DELETE/UNCOMMENT BELOW IF YOU TO MANUALLY ADD PLAYLIST.TXT       ::
+::        DELETE/UNCOMMENT BELOW IF YOU WANT TO MANUALLY ADD PLAYLIST.TXT       ::
 ::                                                                              ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
