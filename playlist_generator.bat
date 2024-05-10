@@ -5,33 +5,33 @@ setlocal enabledelayedexpansion
 set "serverConfigFile=server.cfg"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:: modes = war dm dom koth sab sd arena dd ctf oneflag gtnw conf gun infect    	::
-:: maps = mp_afghan		mp_cross_fire		mp_alpha	    	::
-::	  mp_derail		mp_cargoship		mp_bravo  		::
-::	  mp_estate		mp_killhouse		mp_dome			::
-::	  mp_favela		mp_bog_sh		mp_hardhat		::
-::        mp_highrise		mp_shipment		mp_paris		::
-::        mp_invasion		mp_bloc			mp_plaza2		::
-::        mp_checkpoint		mp_farm			mp_seatown		::
-::        mp_quarry		mp_backlot		mp_underground		::
-::        mp_rundown		mp_pipeline		mp_village		::
-::        mp_rust		mp_countdown					::
-::        mp_boneyard		mp_carentan		mp_nuked		::
-::        mp_nightshift 	mp_broadcast		mp_firingrange		::
-::        mp_subbase 	  	mp_showdown					::
-::        mp_terminal 		mp_convoy		mp_shipment_long	::
-::        mp_underpass 		mp_citystreets		mp_rust_long		::
-::        mp_brecourt 								::
-::        mp_complex 		mp_cargoship_sh		oilrig			::
-::        mp_crash 		mp_bloc_sh		co_hunted		::
-::        mp_overgrown 		mp_storm_spring		iw4_credits		::
-::        mp_compact 		mp_fav_tropical					::
-::        mp_storm 		mp_estate_tropical				::
-::        mp_abandon		mp_crash_tropical				::
-::        mp_fuel2		mp_crash_snow					::
-::        mp_strike								::
-::        mp_trailerpark							::
-::        mp_vacant								::
+:: modes = war dm dom koth sab sd arena dd ctf oneflag gtnw conf gun infect     ::
+:: maps = mp_afghan             mp_cross_fire           mp_alpha                ::
+::        mp_derail             mp_cargoship            mp_bravo                ::
+::        mp_estate             mp_killhouse            mp_dome                 ::
+::        mp_favela             mp_bog_sh               mp_hardhat              ::
+::        mp_highrise           mp_shipment             mp_paris                ::
+::        mp_invasion           mp_bloc                 mp_plaza2               ::
+::        mp_checkpoint         mp_farm                 mp_seatown              ::
+::        mp_quarry             mp_backlot              mp_underground          ::
+::        mp_rundown            mp_pipeline             mp_village              ::
+::        mp_rust               mp_countdown                                    ::
+::        mp_boneyard           mp_carentan             mp_nuked                ::
+::        mp_nightshift         mp_broadcast            mp_firingrange          ::
+::        mp_subbase            mp_showdown                                     ::
+::        mp_terminal           mp_convoy               mp_shipment_long        ::
+::        mp_underpass          mp_citystreets          mp_rust_long            ::
+::        mp_brecourt                                                           ::
+::        mp_complex            mp_cargoship_sh         oilrig                  ::
+::        mp_crash              mp_bloc_sh              co_hunted               ::
+::        mp_overgrown          mp_storm_spring         iw4_credits             ::
+::        mp_compact            mp_fav_tropical                                 ::
+::        mp_storm              mp_estate_tropical                              ::
+::        mp_abandon            mp_crash_tropical                               ::
+::        mp_fuel2              mp_crash_snow                                   ::
+::        mp_strike                                                             ::
+::        mp_trailerpark                                                        ::
+::        mp_vacant                                                             ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Set maps and modes to combine
@@ -94,6 +94,12 @@ for /f "tokens=1,2,3,* delims= " %%a in (tempplaylist.txt) do (
 
 :: Delete temp playlist file
 if exist tempplaylist.txt del tempplaylist.txt
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::                                                                              ::
+::             DELETE/UNCOMMENT BELOW IF YOU TO MANUALLY ADD PLAYLIST.TXT       ::
+::                                                                              ::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Set the source file name and backup folder
 set "source=playlist.txt"
